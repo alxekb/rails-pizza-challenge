@@ -36,5 +36,7 @@ module RailsPizzaChallenge
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    ::Menu = YAML.load_file("#{Rails.root}/data/config.yml").freeze
   end
 end
