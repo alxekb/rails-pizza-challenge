@@ -1,0 +1,3 @@
+<%= turbo_frame_tag 'queue_orders' do %>
+  <%= render partial: 'orders', locals: { queue_orders: @queue_orders } %>
+<% end %>

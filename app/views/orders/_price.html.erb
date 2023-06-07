@@ -1,0 +1,19 @@
+<div>
+  <%- Menu['size_multipliers'].each do |size, multiplier| %>
+    <div
+      class='my-2 w-100'
+      data-controller='order'
+    >
+      <button
+          data-price="<%= (multiplier * price).round(2) %>"
+          data-size="<%= size %>"
+          data-name="<%= pizza %>"
+          data-multiplier="<%= multiplier %>"
+          data-action="click->order#pickPizzaSize"
+          class="btn btn-outline-primary button-block"
+      >
+          <%= [size, '€', (multiplier * price).round(2)].join(' ') %>
+      </button>
+    </div>
+  <% end %>
+</div>

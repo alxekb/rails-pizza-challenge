@@ -1,0 +1,69 @@
+<div class='container border border-primary m-2'>
+  <div class='mt-4'>
+    <h2>
+      Orders
+    </h2>
+  </div>
+
+  <div>
+    <%- @queue_orders.each do |order| %>
+      <div class='mb-4'>
+        <div class='d-flex flex-row justify-content-between border-top mb-4 pt-2'>
+
+          <div class='left-block px-2'>
+            <div>
+              <label>ID:</label>
+              <%= order.id %>
+            </div>
+
+            <div>
+              <label>Created:</label>
+              <%= order.created_at %>
+            </div>
+
+            <div>
+              <label>Promotion codes:</label>
+              <%= order.promotion_codes %>
+            </div>
+
+            <div>
+              <label>Discount code:</label>
+              <%= order.discount_code %>
+            </div>
+
+            <div class='pt-4'>
+              <label>Total price:</label>
+              <%= order.total_price %>
+            </div>
+          </div>
+
+          <div class='right-block flex-grow-1 px-2'>
+            <p>items:</p>
+            <%- order.items.each do |item| %>
+              <div class='d-flex flex-row justify-content-between'>
+                <div>
+                  <label>Product ID:</label>
+                  <%= item['name'] %>
+                </div>
+
+                <div>
+                  <label>Size:</label>
+                  <%= item['size'] %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class='px-2'>
+          <%=
+            button_to 'Complete',
+              order_path(order.id),
+              method: :patch,
+              params: { order: { state: Order::STATES.closed } },
+              class: 'btn btn-primary'
+          %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

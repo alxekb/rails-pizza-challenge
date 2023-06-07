@@ -1,0 +1,10 @@
+<%- Menu['pizzas'].each do |pizza, price| %>
+  <div class='card m-2 p-2'>
+    <strong>
+      <%= pizza %>
+    </strong>
+
+    <%= render 'price', pizza: pizza, price: price %>
+  </div>
+<% end %>
+</div>

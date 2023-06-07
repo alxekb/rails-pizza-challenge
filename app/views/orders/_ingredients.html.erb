@@ -1,0 +1,37 @@
+<div class='ingredients mb-4'>
+
+  <div><h3>Ingredients</h3></div>
+
+  <%- Menu['ingredients'].each do |ingredient, price| %>
+    <div class='d-flex flex-row my-1'>
+      <button
+        data-controller='order'
+        data-ingredient=<%= ingredient %>
+        data-price=<%= price %>
+        data-action='order#addIngredient'
+        class='btn btn-outline-info'
+      >
+        +
+      </button>
+      <strong class='flex-grow-1 mx-2'>
+        <%= ingredient %>
+      </strong>
+      <button
+        data-controller='order'
+        data-type=<%= ingredient %>
+        data-price=<%= price %>
+        data-action='order#removeIngredient'
+        class='btn btn-outline-danger'
+      >
+        -
+      </button>
+    </div>
+  <% end %>
+  <button
+    class='btn btn-primary btn-block'
+    data-controller='order'
+    data-action='order#addPizza'
+  >
+    Add pizza to order
+  </button>
+</div>
