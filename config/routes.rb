@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :orders, only: %i[new create update]
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace :orders do
+    resources :queue, only: %i[index]
+  end
+
+  root 'orders/queue#index'
 end
