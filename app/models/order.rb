@@ -19,5 +19,26 @@
 #
 # @!attribute [rw] discountCode
 #  @return [String] the discount code applied to the order
+#
 class Order < ApplicationRecord
+  # Order::STATES
+  # is a list of all the possible states an order can be in
+  STATES = Struct.new(:open, :closed).new('OPEN', 'CLOSED').freeze
+
+  after_initialize :set_defaults
+
+  validates :state, inclusion: { in: STATES.values }
+
+  # TODO: we need to add a method to calculate the total price of the order
+  def total_price
+    42
+  end
+
+  private
+
+  def set_defaults # :nodoc:
+    self.state ||= STATES.open
+    self.items ||= []
+    self.promotion_codes ||= []
+  end
 end
