@@ -33,3 +33,6 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'shoulda-matchers'
 end
+
+gem 'brakeman', '~> 6.0'
+gem 'bundle-audit', '~> 0.1.0'
