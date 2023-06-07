@@ -1,4 +1,6 @@
-class CreateOrders < ActiveRecord::Migration[7.0]
+# frozen_string_literal: true
+
+class CreateOrders < ActiveRecord::Migration[7.0] # :nodoc:
   def change
     create_table :orders, id: :uuid do |t|
       t.string :state

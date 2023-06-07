@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Orders', type: :request do
+RSpec.describe 'Orders', type: :request do # rubocop:disable Metrics/BlockLength
   describe 'GET /new' do
     it 'returns http success' do
       get '/orders/new'
