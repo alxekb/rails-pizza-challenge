@@ -1,12 +1,17 @@
-<div id='preview'>
-  <div>
-    <h2>Your order</h2>
+<div class='d-flex'>
+  <div class='row'>
+    <div id='preview'>
+      <div>
+        <h2>Your order</h2>
+      </div>
+
+      <%- form_with model: @order, local: true do |form| %>
+        <%= form.submit %>
+      <% end %>
+    </div>
   </div>
 
-  <%- form_with model: @order, local: true do |form| %>
-    <%= form.submit %>
-  <% end %>
-</div>
-<div id='new-item'>
-  <h2>Preview</h2>
+  <div id='new-item'>
+    <h2>Preview</h2>
+  </div>
 </div>

@@ -5,6 +5,11 @@
 
   <%= fields_for @order.discount_code do |form| %>
     <%= form.label :code %>
-    <%= form.text_field :code, class: 'form-control' %>
+    <%=
+      form.text_field :code,
+        'data-controller': 'order',
+        'data-action': 'change->order#discountCode',
+        class: 'form-control'
+      %>
   <% end %>
 </div>

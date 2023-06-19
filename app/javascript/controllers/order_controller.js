@@ -52,10 +52,9 @@ export default class extends Controller {
   addIngredient (event) {
     const ingredient = event.target.dataset
     const item = this.sessionNewItem()
-    const multiplier = item.multiplier || 1
 
     if (!item.add.includes(ingredient.ingredient)) {
-      item.add.push(`${ingredient.ingredient} +€ ${ingredient.price * multiplier}`)
+      item.add.push(`${ingredient.ingredient}`)
     }
 
     this.setSessionNewItem(item)
@@ -101,6 +100,20 @@ export default class extends Controller {
     sessionStorage.setItem('item', JSON.stringify(item))
   }
 
+  setSessionDiscountCode (code) {
+    const order = this.sessionOrder()
+    order.discountCode = code
+
+    this.setSessionOrder(order)
+  }
+
+  setSessionPromotionCodes (codes) {
+    const order = this.sessionOrder()
+    order.promotionCodes = codes
+
+    this.setSessionOrder(order)
+  }
+
   noPizza () {
     return {
       name: '',
@@ -123,7 +136,7 @@ export default class extends Controller {
     return this.sessionItem() || this.noPizza()
   }
 
-  addPizza (event) {
+  addPizza () {
     const item = this.sessionNewItem()
     const order = this.sessionOrder()
 
@@ -139,7 +152,7 @@ export default class extends Controller {
     sessionStorage.setItem('order', JSON.stringify(order))
   }
 
-  submitOrder (event) {
+  submitOrder () {
     const order = this.sessionOrder()
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content
     const url = '/orders'
@@ -155,9 +168,21 @@ export default class extends Controller {
       body
     })
       .then(response => response.json())
-      .then(data => {
+      .then(_data => {
         sessionStorage.clear()
         location.href = '/orders/queue'
       })
+  }
+
+  promotionCodes (event) {
+    const promotionCodesList = event.target.value.split(', ')
+
+    this.setSessionPromotionCodes(promotionCodesList)
+  }
+
+  discountCode (event) {
+    const code = event.target.value
+
+    this.setSessionDiscountCode(code)
   }
 }

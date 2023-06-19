@@ -14,7 +14,7 @@ class OrderDecorator
 
   def total
     total_price
-      .yield_self { |price| (price - promotion_for(price)) }
+      .yield_self { |price| price - order_promotion }
       .yield_self { |price| discount(price) }
       .round(2)
   end
@@ -24,13 +24,13 @@ class OrderDecorator
   attr_reader :order
 
   def discount_percentage
-    Menu['discounts'][order.discount_code].presence || 0
+    Menu['discounts'].dig(order.discount_code, 'deduction_in_percent') || 0
   end
 
   # @param code String
   # @return Hash
   def promotion_from_menu(code)
-    Menu['promotions'][code]
+    Menu['promotions'][code].presence
   end
 
   # @param price Integer
@@ -45,8 +45,8 @@ class OrderDecorator
   # A promotion code can also be applied more than once to the same order
   # (a 2-for-1 code automatically reduces 4 pizzas to 2 for one order)
   #
-  def promotion_for(price)
-    return price if order.promotion_codes.blank?
+  def order_promotion
+    return 0 if order.promotion_codes.blank?
 
     order.promotion_codes.map do |code|
       calculate_deduction_for(code)
@@ -54,17 +54,19 @@ class OrderDecorator
   end
 
   def calculate_deduction_for(code)
-    promotion = promotion_from_menu(code)
     deduction = 0
+    promotion = promotion_from_menu(code)
+
+    return deduction unless promotion
 
     target_items = target_promo_items(items, promotion)
 
     while target_items.size >= promotion['from']
       promotion['to'].times do
-        deduction += (item_price(target_items.first) * size_multiplier(target_items.first)) * 1.0
+        deduction += item_price(target_items.first) * 1.0
       end
 
-      items.pop(promotion['from'])
+      target_items.pop(promotion['from'])
     end
 
     deduction
@@ -102,6 +104,8 @@ class OrderDecorator
   # @return Float
   # calculates price for a single pizza with ingredients
   def pizza_with_ingredients_price(item)
+    return 0 unless item
+
     pizza_price(item) + ingredients_price(item)
   end
 
@@ -109,11 +113,11 @@ class OrderDecorator
   # @return Integer
   # calculates price for a single pizza
   def pizza_price(item)
-    Menu['pizzas'][item['name']]
+    Menu['pizzas'][item['name']].presence || 0.0
   end
 
   def ingredient_price(item)
-    Menu['ingredients'][item]
+    Menu['ingredients'][item].presence || 0.0
   end
 
   # @param ingredients Hash
@@ -123,7 +127,6 @@ class OrderDecorator
     ingredients['add']
       .map { |ingredient| ingredient_price(ingredient) }
       .sum
-      .to_f
   end
 
   # @return Float

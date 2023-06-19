@@ -7,5 +7,16 @@
     <div class='menu'>
       <%= render 'menu' %>
     </div>
+
+    <div class='d-grid'>
+      <button
+          class='btn btn-primary btn-lg btn-block'
+          id='order'
+          data-action='click->order#submitOrder'
+          data-controller='order'
+          >
+          Submit Order
+      </button>
+    </div>
   </div>
 </div>

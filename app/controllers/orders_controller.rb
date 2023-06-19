@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(order_params.transform_keys(&:underscore))
+    @order = Order.new(new_order_params)
 
     if @order.save
       render json: {}
@@ -32,10 +32,15 @@ class OrdersController < ApplicationController
       .permit(:state)
   end
 
+  def new_order_params
+    order_params.transform_keys(&:underscore)
+  end
+
   def order_params
-    params
-      .require(:order)
-      .except(:promotionCodes)
-      .permit(:items, :promotionCodes, :discountCode)
+    p params[:order]
+    params.require(:order)
+          .permit(:discountCode,
+                  promotionCodes: [],
+                  items: [:name, :size, :price, :multiplier, { add: [], remove: [] }])
   end
 end

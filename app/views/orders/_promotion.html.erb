@@ -2,4 +2,13 @@
   <h2>
     Promotion
   </h2>
+
+  <%= fields_for @order do |form| %>
+    <%=
+      form.text_field :promotion_codes,
+                      'data-action': 'change->order#promotionCodes',
+                      'data-controller': 'order',
+                      class: 'form-control'
+      %>
+  <% end %>
 </div>

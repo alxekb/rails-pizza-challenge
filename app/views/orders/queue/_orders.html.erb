@@ -21,7 +21,12 @@
 
             <div>
               <label>Promotion codes:</label>
-              <%= order.promotion_codes %>
+
+              <div class='d-flex flex-row'>
+                <%- order.promotion_codes.each do |promotion_code| %>
+                  <%= promotion_code %>
+                <% end %>
+              </div>
             </div>
 
             <div>
@@ -31,7 +36,7 @@
 
             <div class='pt-4'>
               <label>Total price:</label>
-              <%= order.total_price %>
+              <%= OrderDecorator.new(order).total %>
             </div>
           </div>
 
@@ -41,23 +46,25 @@
               <div class='d-flex justify-content-between'>
 
                 <ul>
-                  <li> <%= item['name'] %> </li>
-                  <li> <%= item['size'] %> </li>
+                  <li>
+                    <%= item['name'] %>
+                    (<%= item['size'] %>)
+                  </li>
 
-                  <%- if item['add'] %>
-                    <li>Add:</li>
-
-                    <%- item['add'].each do |add| %>
-                      <li> <%= add %> </li>
-                    <% end %>
+                  <%- if item['add'].present? %>
+                    <ul>
+                      <%- item['add'].each do |add| %>
+                        <li>Add: <%= add %> </li>
+                      <% end %>
+                    </ul>
                   <% end %>
 
-                  <%- if item['remove'] %>
-                    <p>Remove:</p>
-
-                    <%= item['remove'].each do |remove| %>
-                      <div> <%= remove %> </div>
-                    <% end %>
+                  <%- if item['remove'].present? %>
+                    <ul>
+                      <%- item['remove'].each do |remove| %>
+                        <li>Remove: <%= remove %> </li>
+                      <% end %>
+                    </ul>
                   <% end %>
                 </ul>
               </div>

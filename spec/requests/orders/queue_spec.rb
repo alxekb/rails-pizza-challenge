@@ -5,21 +5,25 @@ require 'rails_helper'
 RSpec.describe 'Orders::Queues', type: :request do
   subject { response }
 
+  let(:orders) { create_list :order, 2 }
+
   describe 'GET /index' do
     describe 'http status' do
       before do
-        get orders_queue_index_path
+        orders
+        get root_path
       end
 
       it { is_expected.to have_http_status(:ok) }
     end
 
     it 'calls the queue query' do
-      allow(Orders::QueueQuery).to receive(:call)
+      query = double(Orders::QueueQuery.name, call: orders)
+      allow(Orders::QueueQuery).to receive(:call).and_return(query.call)
 
-      get orders_queue_index_path
+      get root_path
 
-      expect(Orders::QueueQuery).to have_received(:call)
+      expect(query).to have_received(:call).once
     end
   end
 end

@@ -29,11 +29,6 @@ class Order < ApplicationRecord
 
   validates :state, inclusion: { in: STATES.values }
 
-  # TODO: we need to add a method to calculate the total price of the order
-  def total_price
-    42
-  end
-
   private
 
   def set_defaults # :nodoc:

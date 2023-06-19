@@ -6,20 +6,9 @@
       <%= render 'pizzas' %>
       <%= render 'ingredients' %>
     </div>
+
     <%= render 'promotion' %>
     <%= render 'discount' %>
-
-    <div class='pizza_ingredients'>
-    </div>
   </div>
 </div>
 <%= render 'preview' %>
-
-<button
-  class='btn btn-primary'
-  id='order'
-  data-action='click->order#submitOrder'
-  data-controller='order'
->
-    Submit Order
-</button>
