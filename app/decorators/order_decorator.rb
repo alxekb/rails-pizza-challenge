@@ -53,7 +53,7 @@ class OrderDecorator
     end.sum
   end
 
-  def calculate_deduction_for(code)
+  def calculate_deduction_for(code) # rubocop:disable Metrics/AbcSize
     deduction = 0
     promotion = promotion_from_menu(code)
 
