@@ -1,8 +1,6 @@
 <div class='container border border-primary m-2'>
   <div class='mt-4'>
-    <h2>
-      Orders
-    </h2>
+    <h2> Orders </h2>
   </div>
 
   <div>
@@ -37,23 +35,36 @@
             </div>
           </div>
 
-          <div class='right-block flex-grow-1 px-2'>
+          <div class='right-block d-flex flex-column flex-grow-1 px-2'>
             <p>items:</p>
             <%- order.items.each do |item| %>
-              <div class='d-flex flex-row justify-content-between'>
-                <div>
-                  <label>Product ID:</label>
-                  <%= item['name'] %>
-                </div>
+              <div class='d-flex justify-content-between'>
 
-                <div>
-                  <label>Size:</label>
-                  <%= item['size'] %>
-                </div>
+                <ul>
+                  <li> <%= item['name'] %> </li>
+                  <li> <%= item['size'] %> </li>
+
+                  <%- if item['add'] %>
+                    <li>Add:</li>
+
+                    <%- item['add'].each do |add| %>
+                      <li> <%= add %> </li>
+                    <% end %>
+                  <% end %>
+
+                  <%- if item['remove'] %>
+                    <p>Remove:</p>
+
+                    <%= item['remove'].each do |remove| %>
+                      <div> <%= remove %> </div>
+                    <% end %>
+                  <% end %>
+                </ul>
               </div>
             <% end %>
           </div>
         </div>
+
         <div class='px-2'>
           <%=
             button_to 'Complete',
