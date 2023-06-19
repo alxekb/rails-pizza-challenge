@@ -5,4 +5,4 @@ Stimulus.handleError = (error, message, detail) => {
   console.warn(message, detail)
   ErrorTrackingSystem.captureException(error)
 }
-import "controllers"
+import "./controllers"

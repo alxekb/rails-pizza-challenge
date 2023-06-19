@@ -41,7 +41,7 @@ jobs:
         run: bin/rails db:schema:load
       # Add or replace test runners here
       - name: Run tests
-        run: bundle exec rspec spec
+        run: bin/rake
 
   lint:
     runs-on: ubuntu-latest
